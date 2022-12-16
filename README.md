@@ -15,6 +15,9 @@ Para esto, se define que un paciente posee estancia hospitalaria prolongada si h
 Procedemos con el análisis de los datos, para este caso lo que yo hice fue buscar relación entre los 14 parámetros para encontrar algún patrón.
 Esto se puede hacer graficando la data o incluso filtrando el mismo dataframe.
 
+
+
+
 Estos son algunos de los patrones encontrados en el EDA:
 
 #### Relación entre Departamento y Estancia:
@@ -71,14 +74,52 @@ Output:
 #### Relación entre el seguro y los días:
 ![a183c735-6a8f-477b-be63-630155ac6b40](https://user-images.githubusercontent.com/110522512/208150721-a7f403ea-ccdd-45cf-8ce8-897ee71d10e2.jpg)
 
+Un tip para encontrar relaciones rápidamente:
+
+Si usamos el arbol de decisiones en el dataset, el algoritmo será capaz de encontrar los patrones de una forma muy rápida, podemos hacer un **tree.plot_tree( )** para revisar los descartes y acelerar el proceso del EDA.
+
+
+
 Estos son los patrones que se pueden encontrar a simple vista, los patrones en 3 o más dimensiones que talvez no somos capaces de ver, lo podrá encontrar el modelo KNN, ya que este trabajará con los 14 parámetros a la vez.
 
 
-### 2. Aplicación del modelo.
+### 2. Aplicación del modelo
+
+Para este modelo vamos a usar un el algoritmo de  K-Nearest-Neighbors, para ver más detalles se pueden ver en el Notebook.
+
+Preferimos usar este modelo antes que el arbol de decisiones por ser capaz de encontrar  patrones multidimensionales, mientras que el decision tree compara sólo 2 dimensiones a la vez, el KNN es capaz de encontrar patrones entre los 14 parámetros a la vez.
 
 
 
+![44207644-59d9-439b-86a7-8608de7b2432](https://user-images.githubusercontent.com/110522512/208154605-ae0d2412-b752-41f2-b1cb-1bd30ba49f19.jpg)
 
-### 3. Conclusión.
+
+
+Lo que hace el modelo es primero identificar a los parámetros que te descarten con un 0 de entropy
+Este dato se consigue de 2 maneras:
+* Con un buen proceso de EDA
+* Aplicando el Decision Tree y revisar sus parámetros para las ramificaciones
+
+![image](https://user-images.githubusercontent.com/110522512/208153566-8caef8f4-8ab8-4aee-94ec-c0931c32b302.png)
+ Por ejemplo en nuestor caso, usamos el Decision Tree para poder encontrar patrones mas no lo aplicamos en el modelo final.
+ ahí podemos encontrar cómo va descartando por X[6] que significa edad, o X[1] que significa Departamento.
+ 
+ Al tenerlos identificados, vamos a guardar los datos para poder filtrarlos después.
+ 
+ ¿Porqué no lo filtramos ahora?
+
+Podríamos filtrarlo ahora pero eso reduciría la muestra y el KNN sería menos preciso, por lo que vamos a:
+
+* 1. Identificar las variables con 0 de Entropy y las guardamos para usarlas después.
+* 2. Entrenar el modelo usando KNN (conseguimos el número K haciendo una iteración del 1 al 30)
+* 3. Aplicamos la predicción del KNN
+* 4. Aplicamos el filtro con las variables guardadas.
+
+
+![df1b8852-3c10-4e11-9b41-cd07fbe2eb32](https://user-images.githubusercontent.com/110522512/208157688-aa39d61f-0b59-4e71-ab2d-db0ff9d53337.png)
+
+Entonces, usando el KNN y filtrando data conseguida a partir del Decision Tree y el EDA:
+
+Logramos conseguir un 70% de precisión en el modelo de predicción.
 
 
