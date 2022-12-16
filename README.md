@@ -17,22 +17,61 @@ Esto se puede hacer graficando la data o incluso filtrando el mismo dataframe.
 
 Estos son algunos de los patrones encontrados en el EDA:
 
-Relación entre Departamento y Estancia
+#### Relación entre Departamento y Estancia:
 ~~~
 def over_8(x):
     return x>8
 for a in df['Department'].unique().tolist():
     hiro=df[df.Department.isin([a])]['Stay (in days)'].tolist()
     print('Probabilidad de quedarse por',a,':',sum(over_8(x) for x in hiro)/len(hiro))
-~~~
+
 Output:
-* Probabilidad de quedarse por gynecology : 0.5475685752330226 
-* Probabilidad de quedarse por anesthesia : 1.0
-* Probabilidad de quedarse por TB & Chest disease : 0.9650464807436919
-* Probabilidad de quedarse por radiotherapy : 0.6165596250650929
-* Probabilidad de quedarse por surgery : 0.9995201535508638
+Probabilidad de quedarse por gynecology : 0.5475685752330226 
+Probabilidad de quedarse por anesthesia : 1.0
+Probabilidad de quedarse por TB & Chest disease : 0.9650464807436919
+Probabilidad de quedarse por radiotherapy : 0.6165596250650929
+Probabilidad de quedarse por surgery : 0.9995201535508638
+~~~
 
+#### Relación entre Pacientes de Ginecología y Habitaciones disponibles:
+~~~
+extra={}
+for i in df["Available Extra Rooms in Hospital"].unique().tolist():
+    extra[i]=len(df[df['Stay (in days)']<8][df["Available Extra Rooms in Hospital"]==i][df['Department']=='gynecology'])
+extra
 
+Output:
+{4: 10275,
+ 2: 9321,
+ 7: 193,
+ 3: 9596,
+ 5: 3573,
+ 10: 37,
+ 6: 858,
+ 1: 925,
+ 21: 0,
+ 8: 66,
+ 11: 47,
+ 13: 0,
+ 9: 17,
+ 14: 0,
+ 24: 0,
+ 0: 50,
+ 12: 51,
+ 20: 0}
+~~~
+
+#### Relación entre Departamento y Facility Code:
+
+![a1a44f9a-dcb7-4d52-8201-9061e55d85b7](https://user-images.githubusercontent.com/110522512/208150424-4ada72da-6133-4e8b-a172-407986c1bbd6.jpg)
+
+#### Relación entre Visitas y el género:
+![download](https://user-images.githubusercontent.com/110522512/208150592-574d8b13-32bd-4d87-ba66-79caa67ff1a9.png)
+
+#### Relación entre el seguro y los días:
+![a183c735-6a8f-477b-be63-630155ac6b40](https://user-images.githubusercontent.com/110522512/208150721-a7f403ea-ccdd-45cf-8ce8-897ee71d10e2.jpg)
+
+Estos son los patrones que se pueden encontrar a simple vista, los patrones en 3 o más dimensiones que talvez no somos capaces de ver, lo podrá encontrar el modelo KNN, ya que este trabajará con los 14 parámetros a la vez.
 
 
 ### 2. Aplicación del modelo.
