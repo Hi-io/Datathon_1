@@ -12,6 +12,25 @@ Para esto, se define que un paciente posee estancia hospitalaria prolongada si h
 
 ### 1. Análisis exploratorio de los datos (EDA)
 
+Procedemos con el análisis de los datos, para este caso lo que yo hice fue buscar relación entre los 14 parámetros para encontrar algún patrón.
+Esto se puede hacer graficando la data o incluso filtrando el mismo dataframe.
+
+Estos son algunos de los patrones encontrados en el EDA:
+
+Relación entre Departamento y Estancia
+~~~
+def over_8(x):
+    return x>8
+for a in df['Department'].unique().tolist():
+    hiro=df[df.Department.isin([a])]['Stay (in days)'].tolist()
+    print('Probabilidad de quedarse por',a,':',sum(over_8(x) for x in hiro)/len(hiro))
+~~~
+Output:
+* Probabilidad de quedarse por gynecology : 0.5475685752330226 
+* Probabilidad de quedarse por anesthesia : 1.0
+* Probabilidad de quedarse por TB & Chest disease : 0.9650464807436919
+* Probabilidad de quedarse por radiotherapy : 0.6165596250650929
+* Probabilidad de quedarse por surgery : 0.9995201535508638
 
 
 
